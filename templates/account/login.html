@@ -1,0 +1,19 @@
+{% extends '../base.html' %}
+
+{% load socialaccount %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<br>
+<h3>Login with Google</h3>
+
+<form method="POST" action="{% url 'google_login' %}">
+    {% csrf_token %}
+    <br>
+    <button type="submit">Continue Login</button>
+</form>
+
+{% endblock %}
+
+
