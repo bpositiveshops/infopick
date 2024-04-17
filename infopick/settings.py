@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -70,8 +75,8 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
         },
         'APP': {
-            'client_id': '708056465171-m7meeeeti7vhisottncap88scecmr48s.apps.googleusercontent.com',
-            'secret': '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',
+            'client_id': os.environ.get('CLIENT_ID'),
+            'secret': os.environ.get('SECRET'),
             'key': ''
         },
         'OAUTH_PKCE_ENABLED': True,
