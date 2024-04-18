@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+<!-- Profile details form or information -->
+<!-- <h4>Profile Details : {{ profile.user.username }}</h4> -->
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-left">Profile Details</h2>
+                </div>
+                <div class="card-body">
+                    <form id="clientForm">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="clientName">Client Name:</label>
+                            <input type="text" class="form-control" id="clientName" name="clientName" required>
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // JavaScript to handle form submission
+    document.getElementById("submitBtn").addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Get the client name from the input field
+        var clientName = document.getElementById("clientName").value;
+
+        // Validate client name (you can add more validation as needed)
+        if (clientName.trim() === "") {
+            alert("Please enter a valid client name.");
+            return;
+        }
+
+        // Perform any additional actions (e.g., AJAX request to submit the form data)
+        // For demonstration purposes, we'll just log the client name to the console
+        console.log("Client Name:", clientName);
+
+        // Reset the form after submission (optional)
+        //this.reset();
+        // Retrieve CSRF token from cookies
+        var csrftoken = getCookie('csrftoken');
+        
+        console.log("csrftoken", csrftoken);
+
+        // Make AJAX request
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "{% url 'profile_create' %}", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        // Set CSRF token in the request header
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
+                    // Request successful
+                    console.log(xhr.responseText);
+                    alert(xhr.responseText);
+                    // Optionally, redirect to another page after successful submission
+                    window.location.href = "{% url 'profile' %}";
+                } else {
+                    // Error handling
+                    console.error('Error:', xhr.status);
+                    // Optionally, display an error message to the user
+                    alert("An error occurred while submitting the form. Please try again later.");
+                }
+            }
+        };
+        xhr.send("clientName=" + encodeURIComponent(clientName));
+    });
+     // Function to retrieve CSRF token from cookies
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Check if the cookie name matches the expected format
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+{% endblock %}

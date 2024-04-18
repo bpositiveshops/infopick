@@ -20,10 +20,13 @@ from infopick_app.views import *
 from allauth.account.views import LoginView
 
 urlpatterns = [
-    path('', include('core.urls')),
+    path('', landing_page, name='landing-page'),
+    path('profile/', profile, name='profile'),
     path('admin/', admin.site.urls),
     path('account/', include('allauth.urls')),
     path('account/<provider>/login/', LoginView.as_view(), name='socialaccount_login'),
-    path('profile/', profile, name='profile'),
+    path('profile/', include('profile_app.urls')),  # Include profile app URLs
+    # path('customer/', include('customer_app.urls')),  # Include customer app URLs
+    # path('payment/', include('payment_app.urls')),  # Include payment app URLs
 ]
 
