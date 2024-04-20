@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block content %}
+<h3>Welcome, {{ profile.user.username }}</h3>
+<!-- Include subpage templates -->
+<hr>
+{% include 'profile_app/profile.html'  with profile=profile client_qrcode=client_qrcode %}
+<hr>
+{% include 'customer_app/customer.html' %}
+<hr>
+{% include 'payment_app/payment.html' %}
+{% endblock %}

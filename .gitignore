@@ -1,0 +1,26 @@
+# Ignore App Migration folder
+infopick_app/migrations
+customer_app/migrations
+profile_app/migrations
+payments_app/migrations
+core/migrations
+
+# Ignore Python bytecode files
+__pycache__/
+infopick/__pycache__
+infopick_app/__pycache__
+customer_app/__pycache__
+profile_app/__pycache__
+payments_app/__pycache__
+core/__pycache__
+
+# Ignore virtual environment
+venv/
+
+# Ignore environment configuration files
+.env
+
+# Ignore SQLite database file
+*.sqlite3
+
+
