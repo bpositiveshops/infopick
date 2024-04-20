@@ -10,14 +10,15 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 class Client(models.Model):
-    clientname = models.CharField(max_length=100)
+    clientname = models.CharField(max_length=100, unique=True)
     clientid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
+    created_date = models.DateTimeField(default=timezone.now)
+    last_updated = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return self.clientname
+        return str(self.clientid)
+    
    
 
 

@@ -6,7 +6,7 @@
 <h3>Welcome, {{ profile.user.username }}</h3>
 <!-- Include subpage templates -->
 <hr>
-{% include 'profile_app/profile.html' with profile=profile %}
+{% include 'profile_app/profile.html'  with profile=profile client_qrcode=client_qrcode %}
 <hr>
 {% include 'customer_app/customer.html' %}
 <hr>

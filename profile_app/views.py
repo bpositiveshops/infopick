@@ -1,30 +1,37 @@
+import qrcode
 from django.shortcuts import render, get_object_or_404, redirect
 from infopick_app.models import Profile,Client
-from django.http import HttpResponse
-# from .forms import ProfileForm
-
-# Create your views here.
-def profile_details(request):
-    # Logic to retrieve and pass profile data to the template
-    profile_data = {}  # Replace this with your actual logic to fetch profile data
-    return render(request, 'profile_app/profile.html', {'profile_data': profile_data})
-
-# profile_manager/views.py
-def profile_list(request):
-    profiles = Profile.objects.all()
-    return render(request, 'profile_app/profile.html', {'profiles': profiles})
-
-def profile_detail(request, pk):
-    profile = get_object_or_404(Profile, pk=pk)
-    return render(request, 'profile_app/profile.html', {'profile': profile})
+from profile_app.models import ClientQrcode
+from django.http import JsonResponse
+from io import BytesIO
 
 def profile_create(request):
     if request.method == 'POST':
         # Process form submission
         client_name = request.POST.get('clientName')
-        client, created = Client.objects.get_or_create(email=request.user, defaults={'clientname': client_name})
+
         print("clientname: ", client_name)
-        return redirect('profile')  # Redirect to the profile page or any other appropriate URL after form submission
+        # Create Client Object
+        client, created = Client.objects.get_or_create(email=request.user, clientname=client_name)
+        
+        # Assuming there is a foreign key relationship between Client and QRCode models
+        client = Client.objects.filter(email=request.user).first()
+
+        # Generate QRCode
+        qr_code = qrcode.QRCode(version=1,error_correction=qrcode.constants.ERROR_CORRECT_L,box_size=10,border=4,)
+        qr_code.add_data(f"http://localhost:8000/customer/{client.clientid}")  # Change URL as needed
+        qr_code.make(fit=True)
+        img = qr_code.make_image(fill_color="black", back_color="white")
+ 
+        # Convert image data to byte string
+        buffer = BytesIO()
+        img.save(buffer, format='PNG')
+        image_data = buffer.getvalue()
+
+        # Store the QRCode for user
+        clientqrcode, created = ClientQrcode.objects.get_or_create(clientid=client, dataqrcode=image_data)
+        # return redirect('profile')  # Redirect to the profile page or any other appropriate URL after form submission
+        return JsonResponse({'message': 'Profile created successfully'})  # Return a JsonResponse
     else:
         # Render the form
         return render(request, 'profile_app/profile.html')

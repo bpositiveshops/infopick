@@ -4,8 +4,10 @@
 
 {% block content %}
 
+<!-- Add this line in the <head> section of your HTML document -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <!-- Profile details form or information -->
-<!-- <h4>Profile Details : {{ profile.user.username }}</h4> -->
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -14,7 +16,7 @@
                     <h2 class="text-left">Profile Details</h2>
                 </div>
                 <div class="card-body">
-                    <form id="clientForm">
+                    <form id="clientForm" method="post">
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="clientName">Client Name:</label>
@@ -24,75 +26,64 @@
                             <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
+                    <div>
+                        {% if client_qrcode %}
+                           QR Code <img src="data:image/png;base64,{{ client_qrcode.dataqrcode }}" width="200px" height="200px" alt="QR Code">
+                        {% else %}
+                            <p>No QR code available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!-- Add this modal markup to your HTML template -->
+            <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="successModalLabel">Success</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Profile created successfully.
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    // JavaScript to handle form submission
-    document.getElementById("submitBtn").addEventListener("click", function(event) {
-        event.preventDefault(); // Prevent default form submission
-
-        // Get the client name from the input field
-        var clientName = document.getElementById("clientName").value;
-
-        // Validate client name (you can add more validation as needed)
-        if (clientName.trim() === "") {
-            alert("Please enter a valid client name.");
-            return;
-        }
-
-        // Perform any additional actions (e.g., AJAX request to submit the form data)
-        // For demonstration purposes, we'll just log the client name to the console
-        console.log("Client Name:", clientName);
-
-        // Reset the form after submission (optional)
-        //this.reset();
-        // Retrieve CSRF token from cookies
-        var csrftoken = getCookie('csrftoken');
-        
-        console.log("csrftoken", csrftoken);
-
-        // Make AJAX request
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "{% url 'profile_create' %}", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        // Set CSRF token in the request header
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == XMLHttpRequest.DONE) {
-                if (xhr.status == 200) {
-                    // Request successful
-                    console.log(xhr.responseText);
-                    alert(xhr.responseText);
-                    // Optionally, redirect to another page after successful submission
-                    window.location.href = "{% url 'profile' %}";
-                } else {
-                    // Error handling
-                    console.error('Error:', xhr.status);
-                    // Optionally, display an error message to the user
-                    alert("An error occurred while submitting the form. Please try again later.");
+   $(document).ready(function() {
+        $('#clientForm').submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+            
+            var formData = $("#clientForm").serialize();
+            var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+            
+            $.ajax({
+                url: '{% url "profile_create" %}',
+                type: 'POST',
+                headers: { "X-CSRFToken": csrftoken },
+                dataType: 'json',
+                data: formData,
+                success: function(data) {
+                    // Show a modal window with the success message
+                    $('#successModal').modal('show');
+                    // Reload the page after a brief delay
+                    setTimeout(function() {
+                        window.location.reload();
+                        }, 2000); // 2000 milliseconds (1 second) delay
+                    },
+                error: function(xhr, status, error) {
+                    // Handle error response
+                     console.error(xhr.responseText);
+                     alert('Failed to submit data. Please try again later.');
                 }
-            }
-        };
-        xhr.send("clientName=" + encodeURIComponent(clientName));
+            });
+        });
     });
-     // Function to retrieve CSRF token from cookies
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i].trim();
-                // Check if the cookie name matches the expected format
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
 </script>
+
 {% endblock %}

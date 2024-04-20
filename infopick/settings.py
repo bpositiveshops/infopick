@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'infopick_app',
+    'profile_app',
+    'payment_app',
+    'customer_app',
     # 'infopick_app.apps.InfopickAppConfig',
     # added 3rd party apps:
     'django.contrib.sites', # required by allauth
