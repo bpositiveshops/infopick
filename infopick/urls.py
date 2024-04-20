@@ -26,7 +26,7 @@ urlpatterns = [
     path('account/', include('allauth.urls')),
     path('account/<provider>/login/', LoginView.as_view(), name='socialaccount_login'),
     path('profile/', include('profile_app.urls')),  # Include profile app URLs
-    # path('customer/', include('customer_app.urls')),  # Include customer app URLs
+    path('customer/', include('customer_app.urls')),  # Include customer app URLs
     # path('payment/', include('payment_app.urls')),  # Include payment app URLs
 ]
 

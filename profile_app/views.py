@@ -19,7 +19,7 @@ def profile_create(request):
 
         # Generate QRCode
         qr_code = qrcode.QRCode(version=1,error_correction=qrcode.constants.ERROR_CORRECT_L,box_size=10,border=4,)
-        qr_code.add_data(f"http://localhost:8000/customer/{client.clientid}")  # Change URL as needed
+        qr_code.add_data(f"http://localhost:8000/customer/{str(client.clientid)}")  # Change URL as needed
         qr_code.make(fit=True)
         img = qr_code.make_image(fill_color="black", back_color="white")
  
