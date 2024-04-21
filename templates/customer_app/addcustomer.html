@@ -65,7 +65,7 @@
             var csrftoken = $("[name=csrfmiddlewaretoken]").val();
             
             $.ajax({
-                url: '{% url "customer_create" client_id=client_id %}',
+                url: '{% url "add_customer" client_id=client_id %}',
                 type: 'POST',
                 headers: { "X-CSRFToken": csrftoken },
                 dataType: 'json',

@@ -8,7 +8,7 @@
 <hr>
 {% include 'profile_app/profile.html'  with profile=profile client_qrcode=client_qrcode %}
 <hr>
-{% include 'customer_app/customer.html' %}
+{% include 'customer_app/customer_list.html' with customer_list=customer_list%}
 <hr>
 {% include 'payment_app/payment.html' %}
 {% endblock %}

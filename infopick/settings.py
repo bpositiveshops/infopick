@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'profile_app',
     'payment_app',
     'customer_app',
+    'crispy_forms',
     # 'infopick_app.apps.InfopickAppConfig',
     # added 3rd party apps:
     'django.contrib.sites', # required by allauth
@@ -111,6 +112,11 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            # 'loaders': [
+            #     'django.template.loaders.filesystem.Loader',  # Load templates from filesystem
+            #     'django.template.loaders.app_directories.Loader',  # Load templates from app directories
+            #     # Other loaders...
+            # ],
         },
     },
 ]
@@ -169,7 +175,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-
-

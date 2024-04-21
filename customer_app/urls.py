@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     # Other URL patterns
-    path('<uuid:client_id>/', views.customer_create, name='customer_create'),
+    path('<uuid:client_id>/', views.add_customer, name='add_customer'),
+    # path('customer_list/', views.customer_list, name='customer_list'),
 ]

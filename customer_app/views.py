@@ -5,8 +5,13 @@ from django.utils import timezone
 from .models import *
 # Create your views here.
 
-def customer_create(request, client_id):
-    
+def customer_list(request):
+    # Retrieve the list of customers from the database
+    customer_list = Customer.objects.all()
+    # Render the customer_list.html template with the customer_list context variable
+    return render(request, 'customer_app/customer_list.html', {'customer_list': customer_list})
+
+def add_customer(request, client_id):    
     if request.method == 'POST':
         custname = request.POST.get('custname')
         email =  request.POST.get('custemail')
@@ -30,7 +35,7 @@ def customer_create(request, client_id):
         return  JsonResponse({'message': 'Customer created successfully'}) 
     else:
         # Generate the URL using reverse
-        url = reverse('customer_create', kwargs={'client_id': client_id})
+        url = reverse('add_customer', kwargs={'client_id': client_id})
         # Render the template and pass it to the HttpResponse
         return render(request, 'customer_app/addcustomer.html', {'client_id': client_id})
    
