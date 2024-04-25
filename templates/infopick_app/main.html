@@ -10,5 +10,5 @@
 <hr>
 {% include 'customer_app/customer_list.html' with customer_list=customer_list%}
 <hr>
-{% include 'payment_app/payment.html' %}
+{% include 'payment_app/payment_list.html' with order_list=order_list %}
 {% endblock %}

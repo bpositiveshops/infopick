@@ -57,6 +57,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 ]
 
+# razorpay_integration/settings.py
+RAZORPAY_API_KEY = os.environ.get('RAZORPAY_API_KEY')
+RAZORPAY_API_SECRET = os.environ.get('RAZORPAY_API_SECRET')
+
 LOGIN_REDIRECT_URL = "/profile"
 
 SITE_ID = 1  # Required by django-allauth

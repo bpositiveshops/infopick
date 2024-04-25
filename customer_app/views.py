@@ -11,7 +11,7 @@ def customer_list(request):
     # Render the customer_list.html template with the customer_list context variable
     return render(request, 'customer_app/customer_list.html', {'customer_list': customer_list})
 
-def add_customer(request, client_id):    
+def add_customer(request, client_id):
     if request.method == 'POST':
         custname = request.POST.get('custname')
         email =  request.POST.get('custemail')
@@ -29,15 +29,21 @@ def add_customer(request, client_id):
             created_date=created_date,
             last_updated=last_updated
         )
-
         # Save the new customer to the database
         new_customer.save()
         return  JsonResponse({'message': 'Customer created successfully'}) 
-    else:
-        # Generate the URL using reverse
-        url = reverse('add_customer', kwargs={'client_id': client_id})
-        # Render the template and pass it to the HttpResponse
-        return render(request, 'customer_app/addcustomer.html', {'client_id': client_id})
+     # Render the addcustomer page
+    return render(request, 'customer_app/addcustomer.html', {'client_id': client_id})
+
+def customer_pay(request):
+     # Render the addcustomer page
+    return render(request, 'payment_app/index.html')
+
+def customer_pagelink(request, client_id):    
+    # Generate the URL using reverse
+    url = reverse('customer_pagelink', kwargs={'client_id': client_id})
+    # Render the template and pass it to the HttpResponse
+    return render(request, 'customer_app/customer.html', {'client_id': client_id})
    
 
    

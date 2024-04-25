@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path,include
 from infopick_app.views import *
 from customer_app.views import *
+from payment_app.views import *
 from allauth.account.views import LoginView
 
 urlpatterns = [
@@ -29,7 +30,8 @@ urlpatterns = [
     path('profile/', include('profile_app.urls')),  # Include profile app URLs
     path('customer/', include('customer_app.urls')),  # Include customer app URLs
     path('customer_list/', customer_list, name='customer_list'), #For debugging
-    # path('payment/', include('payment_app.urls')),  # Include payment app URLs
+    path("razorpay/", include('payment_app.urls'), name="urls"),  # Include Payment app URLs
+    # path("razorpay/", include('payment_app.urls'), name="urls"),
     # Define a separate URL pattern for the debug_customer_list view
     # path('debug/customer_list/debug/', customer_list, name='customer_list'), //For debugging
 ]

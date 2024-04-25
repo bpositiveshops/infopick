@@ -9,7 +9,7 @@ User = get_user_model()
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-class Client(models.Model):
+class ClientInfo(models.Model):
     clientname = models.CharField(max_length=100, unique=True)
     clientid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -18,9 +18,4 @@ class Client(models.Model):
 
     def __str__(self):
         return str(self.clientid)
-    
-   
-
-
-
 

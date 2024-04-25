@@ -1,6 +1,6 @@
 import qrcode
 from django.shortcuts import render, get_object_or_404, redirect
-from infopick_app.models import Profile,Client
+from infopick_app.models import Profile,ClientInfo
 from profile_app.models import ClientQrcode
 from django.http import JsonResponse
 from io import BytesIO
@@ -12,10 +12,10 @@ def profile_create(request):
 
         print("clientname: ", client_name)
         # Create Client Object
-        client, created = Client.objects.get_or_create(email=request.user, clientname=client_name)
+        client, created = ClientInfo.objects.get_or_create(email=request.user, clientname=client_name)
         
         # Assuming there is a foreign key relationship between Client and QRCode models
-        client = Client.objects.filter(email=request.user).first()
+        client = ClientInfo.objects.filter(email=request.user).first()
 
         # Generate QRCode
         qr_code = qrcode.QRCode(version=1,error_correction=qrcode.constants.ERROR_CORRECT_L,box_size=10,border=4,)

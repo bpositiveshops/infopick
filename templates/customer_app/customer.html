@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %} Add Customer{% endblock %}
+{% block content %}
+<h4>Customer Page</h4>
+<hr>
+<a href="{% url 'add_customer' client_id=client_id|stringformat:'s' %}">Customer Form</a>
+<br>
+<hr>
+<a href="{% url 'customer_pay' %}">Payment Link</a>
+<hr>
+{% endblock %}
+
