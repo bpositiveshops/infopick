@@ -56,6 +56,9 @@
         </div>
     </nav>
 
+    <!-- Toast message container -->
+    <div id="toastContainer" class="position-fixed top-0 start-0 p-3" style="z-index: -1"></div>
+
     <div class="container-fluid">
         {% block content %}
         {% endblock %}
@@ -65,5 +68,170 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- CSS for toast messages -->
+    <style>
+        /* Custom CSS for toast animations */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOutLeft {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        .toast {
+            animation: slideInLeft 0.5s ease-in-out, slideOutRight 0.5s ease-in-out 25s forwards;
+        }
+    </style>
+
+    <!-- JavaScript for toast messages -->
+    <script>
+        function showToast(message, type) {
+            // Create a new toast element
+            var toastElement = document.createElement('div');
+            toastElement.className = 'toast';
+
+            // Set the appropriate background color based on the type
+            if (type === 'success') {
+                toastElement.classList.add('bg-success', 'text-white');
+            } else if (type === 'error') {
+                toastElement.classList.add('bg-danger', 'text-white');
+            }
+
+            // Set the toast message text
+            toastElement.textContent = message;
+
+            // Add the toast element to the toast container
+            var toastContainer = document.getElementById('toastContainer');
+            toastContainer.appendChild(toastElement);
+
+            // Show the toast
+            setTimeout(function() {
+                toastElement.classList.add('show');
+            }, 100);
+
+            // Remove the toast after 5 seconds
+            setTimeout(function() {
+                toastElement.classList.remove('show');
+                setTimeout(function() {
+                    toastContainer.removeChild(toastElement);
+                }, 500); // Remove after animation completes
+            }, 5000);
+        }
+    </script>
+    <!-- JavaScript for toast messages -->
+    <!-- <script>
+        function showToast(message, type) {
+            // Create a new toast element
+            var toastElement = document.createElement('div');
+            toastElement.className = 'toast';
+            toastElement.setAttribute('role', 'alert');
+            toastElement.setAttribute('aria-live', 'assertive');
+            toastElement.setAttribute('aria-atomic', 'true');
+
+            // Set the appropriate background color based on the type
+            if (type === 'success') {
+                toastElement.classList.add('bg-success', 'text-white');
+            } else if (type === 'error') {
+                toastElement.classList.add('bg-danger', 'text-white');
+            }
+
+            // Create toast header
+            var toastHeader = document.createElement('div');
+            toastHeader.className = 'toast-header';
+            
+            // Create close button
+            var closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.className = 'btn-close';
+            closeButton.setAttribute('data-dismiss', 'toast');
+            closeButton.setAttribute('aria-label', 'Close');
+
+            // Create strong element for title
+            var strongTitle = document.createElement('strong');
+            strongTitle.className = 'me-auto';
+            strongTitle.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+
+            // Append elements to toast header
+            toastHeader.appendChild(strongTitle);
+            toastHeader.appendChild(closeButton);
+            toastElement.appendChild(toastHeader);
+
+            // Create toast body
+            var toastBody = document.createElement('div');
+            toastBody.className = 'toast-body';
+            toastBody.textContent = message;
+            toastElement.appendChild(toastBody);
+
+            // Add the toast element to the toast container
+            var toastContainer = document.getElementById('toastContainer');
+            toastContainer.appendChild(toastElement);
+
+            // Show the toast
+            $('.toast').toast('show');
+        }
+    </script> -->
+    <!-- <script>
+        function showToast(message, type) {
+            // Create a new toast element
+            var toastElement = document.createElement('div');
+            toastElement.className = 'toast';
+            toastElement.setAttribute('role', 'alert');
+            toastElement.setAttribute('aria-live', 'assertive');
+            toastElement.setAttribute('aria-atomic', 'true');
+    
+            // Set the appropriate background color based on the type
+            if (type === 'success') {
+                toastElement.classList.add('bg-success', 'text-white');
+            } else if (type === 'error') {
+                toastElement.classList.add('bg-danger', 'text-white');
+            }
+    
+            // Create toast header
+            var toastHeader = document.createElement('div');
+            toastHeader.className = 'toast-header';
+            
+            // Create close button
+            var closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.className = 'btn-close';
+            closeButton.setAttribute('data-dismiss', 'toast');
+            closeButton.setAttribute('aria-label', 'Close');
+    
+            // Create strong element for title
+            var strongTitle = document.createElement('strong');
+            strongTitle.className = 'me-auto';
+            strongTitle.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+    
+            // Append elements to toast header
+            toastHeader.appendChild(strongTitle);
+            toastHeader.appendChild(closeButton);
+            toastElement.appendChild(toastHeader);
+    
+            // Create toast body
+            var toastBody = document.createElement('div');
+            toastBody.className = 'toast-body';
+            toastBody.textContent = message;
+            toastElement.appendChild(toastBody);
+
+  
+            // Add the toast element to the toast container
+            var toastContainer = document.getElementById('toastContainer');
+            toastContainer.appendChild(toastElement);
+    
+            // Show the toast
+            $('.toast').toast('show');
+        }
+    </script> -->
 </body>
 </html>

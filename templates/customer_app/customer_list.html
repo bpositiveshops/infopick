@@ -3,30 +3,40 @@
 {% block content %}
 <!-- Bootstrap CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<h4>Customer List</h4>
-<div class="container mt-5">
-    <a href="#" class="btn btn-primary mb-3">Add Customer</a>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for customer in customer_list %}
-            <tr>
-                <td>{{ customer.custname }}</td>
-                <td>{{ customer.email }}</td>
-                <td>{{ customer.phone }}</td>
-                <td>
-                    
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="text-left">Customer List</h5>
+                </div>
+                <div class="container mt-2">
+                    <a href="#" class="btn btn-primary mb-3">Add Customer</a>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Clientid</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for customer in customer_list %}
+                            <tr>
+                                <td>{{ customer.clientid }}</td>
+                                <td>{{ customer.custname }}</td>
+                                <td>{{ customer.email }}</td>
+                                <td>{{ customer.phone }}</td>
+                                <td></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

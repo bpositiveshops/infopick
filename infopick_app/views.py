@@ -22,6 +22,9 @@ def profile(request):
         # Check if client_qrcode is not None and convert dataqrcode to base64
         if client_qrcode:
             client_qrcode.dataqrcode = base64.b64encode(client_qrcode.dataqrcode).decode('utf-8')
+        
+        # Retrieve the list of all clientinfo form the database
+        clientinfo_list = client_info_with_qr(request)
         # Retrieve the list of customers from the database
         customer_list = Customer.objects.all()
         # Retrieve the list of Orders from the database
@@ -31,9 +34,31 @@ def profile(request):
         # Redirect to a page where the user can complete their profile
         messages.warning(request, 'Please complete your profile.')
         return redirect('socialaccount_signup')  # Change to the appropriate URL name for the signup page
-    return render(request, 'infopick_app/main.html', {'profile': profile, 'client_qrcode': client_qrcode, 'customer_list': customer_list, 'order_list': order_list}) 
+    return render(request, 'infopick_app/main.html', {'profile': profile, 'clientinfo_list': clientinfo_list, 'client_qrcode': client_qrcode, 'customer_list': customer_list, 'order_list': order_list}) 
 
 def landing_page(request):
     return render(request, 'infopick_app/home.html')
+
+def client_info_with_qr(request):
+    # Fetch all ClientInfo objects along with their associated ClientQrcode (if any)
+    client_info_list = ClientInfo.objects.filter(email=request.user)
+
+    # Combine client info with their QR code data
+    combined_data = []
+    for client_info in client_info_list:
+        client_data = {
+            'client_info': client_info,
+            'qr_code': None  # Default value if no QR code is associated
+        }
+        # Check if there's a QR code associated with this client
+        try:
+            qr_code = ClientQrcode.objects.get(clientid=client_info)
+            if qr_code:
+                qr_code.dataqrcode = base64.b64encode(qr_code.dataqrcode).decode('utf-8')
+                client_data['qr_code'] = qr_code
+        except ClientQrcode.DoesNotExist:
+            pass
+        combined_data.append(client_data)
+    return combined_data
 
 

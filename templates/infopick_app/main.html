@@ -3,10 +3,10 @@
 {% block title %}Main Page{% endblock %}
 
 {% block content %}
-<h3>Welcome, {{ profile.user.username }}</h3>
+<h5>Welcome, {{ profile.user.username }}</h5>
 <!-- Include subpage templates -->
 <hr>
-{% include 'profile_app/profile.html'  with profile=profile client_qrcode=client_qrcode %}
+{% include 'profile_app/profile_list.html' with clientinfo_list=clientinfo_list %}
 <hr>
 {% include 'customer_app/customer_list.html' with customer_list=customer_list%}
 <hr>
