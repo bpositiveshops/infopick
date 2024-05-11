@@ -15,7 +15,8 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>ClientId</th>
+                                <th>Client Name</th>
+                                <th>Client Location</th>
                                 <th>Name</th>
                                 <th>Amount</th>
                                 <th>Status</th>
@@ -25,7 +26,8 @@
                         <tbody>
                             {% for order in order_list %}
                             <tr>
-                                <td>{{ order.clientid }}</td>
+                                <td>{{ order.client_info }}</td>
+                                <td>{{ order.client_info.location }}</td>
                                 <td>{{ order.name }}</td>
                                 <td>{{ order.amount }}</td>
                                 <td>{{ order.status }}</td>

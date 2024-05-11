@@ -15,8 +15,9 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Clientid</th>
-                                <th>Name</th>
+                                <th>Clientname</th>
+                                <th>Location</th>
+                                <th>Cust Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Actions</th>
@@ -25,7 +26,8 @@
                         <tbody>
                             {% for customer in customer_list %}
                             <tr>
-                                <td>{{ customer.clientid }}</td>
+                                <td>{{ customer.client_info }}</td>
+                                <td>{{ customer.client_info.location }}</td>
                                 <td>{{ customer.custname }}</td>
                                 <td>{{ customer.email }}</td>
                                 <td>{{ customer.phone }}</td>

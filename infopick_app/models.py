@@ -12,6 +12,7 @@ class Profile(models.Model):
 class ClientInfo(models.Model):
     clientname = models.CharField(max_length=100, unique=True)
     location = models.CharField(max_length=100,default="None")
+    # buildingno = models.CharField(max_length=20)
     phone = models.CharField(max_length=20, default="None")
     clientid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -19,5 +20,9 @@ class ClientInfo(models.Model):
     last_updated = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return str(self.clientid)
+        return str(self.clientname)
+    
+    # class Meta:
+    #     # Define unique constraint for the combination of clientname, location, and buildingno
+    #     unique_together = ('clientname', 'location', 'buildingno')
 

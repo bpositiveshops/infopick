@@ -78,7 +78,9 @@
                 data: formData,
                 success: function(data) {
                     // Show a modal window with the success message
-                    $('#successModal').modal('show');
+                    // $('#successModal').modal('show');
+                    alert("I am here");
+                    showToast("Profile created successfully.","success", 8000);
                     // Reload the page after a brief delay
                     setTimeout(function() {
                         window.location.reload();
@@ -87,7 +89,7 @@
                 error: function(xhr, status, error) {
                     // Handle error response
                      console.error(xhr.responseText);
-                     alert('Failed to submit data. Please try again later.');
+                     showToast("Failed to submit data. Please try again later.","error", 8000);
                 }
             });
         });

@@ -9,11 +9,11 @@ from infopick_app.models import ClientInfo
 from django.conf import settings
 import json
 
-def index(request):
-    return render(request, "payment_app/index.html")
+def index(request, client_id):
+    return render(request, "payment_app/index.html", {'client_id': client_id})
 
 
-def order_payment(request):
+def order_payment(request, client_id):
     if request.method == "POST":
         name = request.POST.get("name")
         amount = request.POST.get("amount")
@@ -22,10 +22,10 @@ def order_payment(request):
             {"amount": int(amount) * 100, "currency": "INR", "payment_capture": "1"}
         )
         # Assuming there is a foreign key relationship between Client and QRCode models
-        clientinfo = ClientInfo.objects.filter(email=request.user).first()
+        clientinfo = ClientInfo.objects.filter(email=request.user, clientid=client_id).first()
 
         order = Order.objects.create(
-            clientid= clientinfo, name=name, amount=amount, provider_order_id=razorpay_order["id"]
+            client_info = clientinfo, name=name, amount=amount, provider_order_id=razorpay_order["id"]
         )
         order.save()
         return render(

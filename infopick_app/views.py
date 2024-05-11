@@ -52,7 +52,7 @@ def client_info_with_qr(request):
         }
         # Check if there's a QR code associated with this client
         try:
-            qr_code = ClientQrcode.objects.get(clientid=client_info)
+            qr_code = ClientQrcode.objects.get(clientid=client_info.clientid)
             if qr_code:
                 qr_code.dataqrcode = base64.b64encode(qr_code.dataqrcode).decode('utf-8')
                 client_data['qr_code'] = qr_code

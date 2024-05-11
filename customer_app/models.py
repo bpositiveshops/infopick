@@ -6,7 +6,7 @@ class Customer(models.Model):
     custname = models.CharField(max_length=100)  # Add custname field
     email = models.EmailField()  # Add email field
     phone = models.CharField(max_length=20)  # Add phone field
-    clientid = models.ForeignKey(ClientInfo, on_delete=models.CASCADE, null=True)
+    client_info = models.ForeignKey(ClientInfo, on_delete=models.CASCADE, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     last_updated = models.DateTimeField(null=True, blank=True)
 

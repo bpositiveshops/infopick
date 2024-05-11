@@ -6,7 +6,6 @@ from .constants import PaymentStatus
 from django.utils import timezone
 
 class Order(models.Model):
-    clientid = models.ForeignKey(ClientInfo, on_delete=models.CASCADE, null=True)
     name = CharField(_("Customer Name"), max_length=254, blank=False, null=False)
     amount = models.FloatField(_("Amount"), null=False, blank=False)
     status = CharField(
@@ -16,6 +15,7 @@ class Order(models.Model):
         blank=False,
         null=False,
     )
+    client_info = models.ForeignKey(ClientInfo, on_delete=models.CASCADE, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     last_updated = models.DateTimeField(null=True, blank=True)
     provider_order_id = models.CharField(
@@ -28,5 +28,5 @@ class Order(models.Model):
         _("Signature ID"), max_length=128, null=False, blank=False
     )
     def __str__(self):
-        return str(self.clientid)
+        return self.name
 
